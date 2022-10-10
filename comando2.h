@@ -1,0 +1,1 @@
+void comando_2(char arquivo[]);
