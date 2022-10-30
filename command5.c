@@ -57,9 +57,6 @@ int command5(char* filename, int num_insertions){
         else
             reg->velocidade = -1;
 
-        //calcula o tamanho do registro
-        int len_reg = 22 + strlen(reg->nomePoPs) + strlen(reg->nomePais);
-
         //nenhum registro removido, insere no fim do arquivo
         if(header->nroRegRem == 0){
             fseek(file, 0, SEEK_END);
