@@ -68,7 +68,10 @@ int main(void) {
             }
             break;
         case 6:
+            //le o nome do arquivo de entrada
             scanf("%s", f_name_input);
+            
+            //executa o comando 6
             if(comando_6(f_name_input) == 1) {
                 binarioNaTela(f_name_input);
             }
