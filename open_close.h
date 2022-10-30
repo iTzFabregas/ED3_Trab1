@@ -3,7 +3,7 @@
 
 #include<stdio.h>
 
-//macros importantes
+//macros importantes para modo de abrir um arquivo
 #define FILE_READB 0
 #define FILE_WRITEB 1
 #define FILE_READT 2

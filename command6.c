@@ -1,5 +1,7 @@
 #include "command6.h"
 
+//executa o comando 6, realiza uma compactacao eficiente,
+//ou seja, retira os registros removidos do arquivo de dados
 int comando_6(char filename[]) {
     FILE* file = open_file(filename, FILE_READB);
     if (file == NULL) {

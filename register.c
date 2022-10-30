@@ -57,6 +57,7 @@ int read_header(Header_reg* header, FILE* file){
     return 1; //sucesso
 }
 
+//le todos os campos de um registro do arquivo de dados
 int read_register(FILE* file, Data_reg* registro) {
 
     int cnt;
@@ -90,8 +91,10 @@ int read_register(FILE* file, Data_reg* registro) {
     return 1;
 }
 
+//escreve o cabecalho no arquivo indicado
 void write_header(FILE* file, Header_reg* header) {
     fseek(file, 0, SEEK_SET);
+
     fwrite(&header->status, sizeof(char), 1, file);
     fwrite(&header->topo, sizeof(int), 1, file);
     fwrite(&header->proxRRN, sizeof(int), 1, file);
@@ -104,6 +107,7 @@ void write_header(FILE* file, Header_reg* header) {
     }
 }
 
+//escreve os campos de registro e seu lixo no arquivo indicado
 void write_register(FILE* file_write, Data_reg* registro) {
     fwrite(&registro->removido, REMOVIDO_TAM, 1, file_write);
     fwrite(&registro->encadeamento, ENCADEAMENTO_TAM, 1, file_write);
@@ -120,6 +124,7 @@ void write_register(FILE* file_write, Data_reg* registro) {
         fwrite(&registro->nomePoPs[cnt++], sizeof(char), 1, file_write);
         len++;
     }
+
     if (registro->nomePoPs[cnt] != '|') {
         registro->nomePoPs[cnt] = '|';
     }
