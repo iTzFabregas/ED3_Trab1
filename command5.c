@@ -20,6 +20,7 @@ int command5(char* filename, int num_insertions){
     }
 
     //arquvio torna-se instavel durante a execucao do comando
+    fseek(file, 0, SEEK_SET);
     header->status = '0';
     fwrite(&header->status, sizeof(char), 1, file);
 
