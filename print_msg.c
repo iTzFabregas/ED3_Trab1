@@ -13,6 +13,7 @@ void error_reg(){
     printf("Registro inexistente.\n\n");
 }
 
+//imprime todos os campos de um registro do arquivo de dados
 void printar_registros(Data_reg *registro){
     if (registro->idConecta != -1) { // se for diferente de NULL
         printf("Identificador do ponto: %d\n", registro->idConecta);

@@ -1,5 +1,7 @@
 #include "command4.h"
 
+//executa o comando 4, promove uma remocao logica nos registros que 
+//possuam um valor de campo igual ao especificado pelo teclado
 int field_position(FILE* file, char field_name[], int field_value_i, char field_value_s[]) {
 
     if (strcmp(field_name, "idConecta") == 0) { // verifica se o campo de remocao é esse

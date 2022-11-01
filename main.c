@@ -1,3 +1,8 @@
+/*
+Fabricio Sampaio [runcodes] - 12547423 - participacao: 100%
+Pedro Lucas Castro de Andrade - 11212289 - participacao: 100%
+*/
+
 #include<stdio.h>
 
 #include "command1.h"
@@ -63,7 +68,10 @@ int main(void) {
             }
             break;
         case 6:
+            //le o nome do arquivo de entrada
             scanf("%s", f_name_input);
+            
+            //executa o comando 6
             if(comando_6(f_name_input) == 1) {
                 binarioNaTela(f_name_input);
             }

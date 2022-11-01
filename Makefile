@@ -1,6 +1,5 @@
-all: main.o funcoesDadas.o open_close.o command1.o command2.o command3.o command4.o command5.o command6.o register.o print_msg.o write_func.o
-	gcc -o trab1 main.o funcoesDadas.o open_close.o command1.o command2.o command3.o command4.o command5.o command6.o register.o print_msg.o write_func.o
-
+all: main.o funcoesDadas.o open_close.o command1.o command2.o command3.o command4.o command5.o command6.o register.o print_msg.o
+	gcc -o trab1 main.o funcoesDadas.o open_close.o command1.o command2.o command3.o command4.o command5.o command6.o register.o print_msg.o
 run:
 	@./trab1
 
@@ -36,9 +35,6 @@ command5.o: command5.c
 
 command6.o: command6.c
 	gcc -o command6.o -c command6.c
-
-write_func.o: write_func.c
-	gcc -o write_func.o -c write_func.c
 
 copy:
 	rm *.bin

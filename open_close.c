@@ -3,6 +3,7 @@
 #include "open_close.h"
 #include "print_msg.h"
 
+//abre um arquivo no modo desejado 
 FILE* open_file(char* filename, int mode){
     FILE* file;
     if (mode == FILE_READB) {
@@ -35,9 +36,10 @@ FILE* open_file(char* filename, int mode){
         }
     }
     
-    return file; // retorna o file com o ponteiro no começo do arquivo
+    return file; // retorna o file com o ponteiro no comeco do arquivo
 }
 
+//fecha um arquivo
 void close_file(FILE* file){
     fclose(file);
 }

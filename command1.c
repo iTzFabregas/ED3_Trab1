@@ -6,8 +6,6 @@
 #include "funcoesDadas.h"
 #include "open_close.h"
 
-#include "write_func.h"
-
 //retira o valor de um campo da linha
 char* cut_field(char *line, int begin, int end){
     char* field = malloc(sizeof(char) * (end - begin + 2));
@@ -96,7 +94,7 @@ int command1(char* f_name_input, char* f_name_output){
         char** fields = parse_line(line, SORTER, 6);
 
         //registro de dados recebe os campos adequados
-        //faz conversao para int nos campos devidos
+        //faz conversao para int nos campos devidos e coloca lixo quando necessario
         reg->idConecta = atoi(fields[0]) ? atoi(fields[0]) : -1;
         
 
@@ -105,19 +103,21 @@ int command1(char* f_name_input, char* f_name_output){
         strcpy(reg->nomePais, fields[2]);
 
         strcpy(reg->siglaPais, fields[3]);
+        if(strcmp(reg->siglaPais, "") == 0){
+            strcpy(reg->siglaPais, "$$");
+        }
 
         reg->idPoPsConectado = atoi(fields[4]) ? atoi(fields[4]) : -1;
 
         strcpy(&reg->unidadeMedida, fields[5]);
+        if(strcmp(&reg->unidadeMedida, "") == 0){
+            strcpy(&reg->unidadeMedida, "$");
+        }
 
         reg->velocidade = atoi(fields[6]) ? atoi(fields[6]) : -1;
 
-        //calcula o tamanho de todos os campos juntos
-        int len_reg = 22 + strlen(reg->nomePoPs) + strlen(reg->nomePais);
-
         //escreve no arquivo de saida o reg de dados e a quantidade certa de lixo
-        write_reg(reg, file_output);
-        insert_garbage(file_output, (LEN_REG - len_reg));
+        write_register(file_output, reg);
 
         //cada reg de dados representa um rrn e 64 bytes
         header->proxRRN++;
@@ -145,7 +145,7 @@ int command1(char* f_name_input, char* f_name_output){
     //retorna ao inicio do arquivo e atualiza o reg de cabecalho
     fseek(file_output, 0, SEEK_SET);
     header->status = '1';
-    write_header2(header, file_output);
+    write_header(file_output, header);
 
     //fecha os arquivos e desaloca as memorias usadas
     close_file(file_input);

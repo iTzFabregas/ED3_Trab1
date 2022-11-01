@@ -7,4 +7,5 @@
 #include "open_close.h"
 #include "print_msg.h"
 
+//executa o comando 2, imprime todos os registros de um arq binario
 void comando_2(char arquivo[]);
