@@ -3,78 +3,45 @@ Fabricio Sampaio [runcodes] - 12547423 - participacao: 100%
 Pedro Lucas Castro de Andrade - 11212289 - participacao: 100%
 */
 
-#include<stdio.h>
+#include <stdio.h>
 
-#include "command1.h"
-#include "command2.h"
-#include "command3.h"
-#include "command4.h"
-#include "command5.h"
-#include "command6.h"
-#include "funcoesDadas.h"
+#include "insertion.h"
+#include "search.h"
+#include "funcoesFornecidas.h"
 
 int main(void) {
     //variaveis p/ entrada do teclado
     int command;
-    char f_name_input[30];
-    char f_name_output[30];
-    int num_searches;
-    int num_insertions;
+    char data_file1[30];
+    char data_file2[30];
+    char index_file[30];
+    int num_suarches;
 
     //le do teclado qual o comando sera acionado
     scanf("%d ", &command);
 
     //aciona a execucao do comando lido
     switch (command){
-        case 1:
-            //le os nomes dos arquivos que serao usados no comando 1
-            scanf("%s %s", f_name_input, f_name_output);
-            
-            //executa o comando 1
-            if(command1(f_name_input, f_name_output)){
-                binarioNaTela(f_name_output);
+        case 7:
+            scanf("%s %s", data_file1, index_file);
+            if(command7(data_file1, index_file)){
+                binarioNaTela(index_file);
             }
             break;
-        case 2:
-            // le o nome do arquivo
-            scanf("%s", f_name_input);
-
-            // executa comando 2
-            comando_2(f_name_input);
+        case 8:
+            scanf("%s %s %d", data_file1, index_file, &num_suarches);
+            command8(data_file1, index_file, num_suarches);
             break;
-        case 3:
-            //le o nome do arquivo e o numero de buscas p/ o comando 3
-            scanf("%s %d", f_name_input, &num_searches);
-            
-            //executa o comando 3
-            command3(f_name_input, num_searches);
-            break;
-        case 4:
-            // le nome arquivo de entrada
-            scanf("%s", f_name_input);
-
-            // execurta comando 4
-            if(comando_4(f_name_input) == 1) { // se o programa terminou certinho
-                binarioNaTela(f_name_input);
+        case 9:
+            scanf("%s %s", data_file1, index_file);
+            if(command9(data_file1, index_file)){
+                binarioNaTela(data_file1);
+                binarioNaTela(index_file);
             }
             break;
-        case 5:
-            //le o nome do arquivo e o numero de insercoes p/ o comando 5
-            scanf("%s %d", f_name_input, &num_insertions);
-            
-            //executa o comando 5
-            if(command5(f_name_input, num_insertions)){
-                binarioNaTela(f_name_input);
-            }
-            break;
-        case 6:
-            //le o nome do arquivo de entrada
-            scanf("%s", f_name_input);
-            
-            //executa o comando 6
-            if(comando_6(f_name_input) == 1) {
-                binarioNaTela(f_name_input);
-            }
+        case 10:
+            scanf("%s %s %*s %*s %s", data_file1, data_file2, index_file);
+            command10(data_file1, data_file2, index_file);
             break;
     }
 }

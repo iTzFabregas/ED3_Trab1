@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "register.h"
-#include "print_msg.h"
 
 //aloca memoria e inicializa variaveis para o cabecalho
 Header_reg* create_header(){
@@ -17,7 +13,7 @@ Header_reg* create_header(){
     return header;
 }
 
-//libera memoria usada no cabecalho
+//libera memoria usada
 void release_header(Header_reg* header){
     free(header);
     header = NULL;
@@ -32,20 +28,17 @@ Data_reg* create_reg(){
     return reg;
 }
 
-//libera memoria usada no reg de dados
+//libera memoria usada
 void release_reg(Data_reg* reg){
     free(reg);
     reg = NULL;
 }
 
 //le os campos do cabecalho
-int read_header(Header_reg* header, FILE* file){
+void read_header(Header_reg* header, FILE* file){
+    fseek(file, 0, SEEK_SET);
+
     fread(&header->status, sizeof(char), 1, file);
-    if(header->status == '0'){
-        error_file();
-        return 0; //erro no arquivo    
-    }
-    
     fread(&header->topo, sizeof(int), 1, file);
     fread(&header->proxRRN, sizeof(int), 1, file);
     fread(&header->nroRegRem, sizeof(int), 1, file);
@@ -53,8 +46,22 @@ int read_header(Header_reg* header, FILE* file){
     fread(&header->qttCompacta, sizeof(int), 1, file);
 
     fseek(file, 939, SEEK_CUR);
+}
 
-    return 1; //sucesso
+//escreve o cabecalho no arquivo indicado
+void write_header(FILE* file, Header_reg* header) {
+    fseek(file, 0, SEEK_SET);
+
+    fwrite(&header->status, sizeof(char), 1, file);
+    fwrite(&header->topo, sizeof(int), 1, file);
+    fwrite(&header->proxRRN, sizeof(int), 1, file);
+    fwrite(&header->nroRegRem, sizeof(int), 1, file);
+    fwrite(&header->nroPagDisco, sizeof(int), 1, file);
+    fwrite(&header->qttCompacta, sizeof(int), 1, file);
+    char garbage = GARBAGE;
+    for(size_t i = 0; i < 939; i++){
+        fwrite(&garbage, sizeof(char), 1, file);
+    }
 }
 
 //le todos os campos de um registro do arquivo de dados
@@ -91,21 +98,6 @@ int read_register(FILE* file, Data_reg* registro) {
     return 1;
 }
 
-//escreve o cabecalho no arquivo indicado
-void write_header(FILE* file, Header_reg* header) {
-    fseek(file, 0, SEEK_SET);
-
-    fwrite(&header->status, sizeof(char), 1, file);
-    fwrite(&header->topo, sizeof(int), 1, file);
-    fwrite(&header->proxRRN, sizeof(int), 1, file);
-    fwrite(&header->nroRegRem, sizeof(int), 1, file);
-    fwrite(&header->nroPagDisco, sizeof(int), 1, file);
-    fwrite(&header->qttCompacta, sizeof(int), 1, file);
-    char garbage = GARBAGE;
-    for(size_t i = 0; i < 939; i++){
-        fwrite(&garbage, sizeof(char), 1, file);
-    }
-}
 
 //escreve os campos de registro e seu lixo no arquivo indicado
 void write_register(FILE* file_write, Data_reg* registro) {
@@ -148,4 +140,42 @@ void write_register(FILE* file_write, Data_reg* registro) {
     for(size_t i = 0; i < LEN_REG-len; i++){
         fwrite(&garbage, sizeof(char), 1, file_write);
     }
+}
+
+//imprime todos os campos de um registro do arquivo de dados
+void printar_registros(Data_reg *registro){
+    if (registro->idConecta != -1) { // se for diferente de NULL
+        printf("Identificador do ponto: %d\n", registro->idConecta);
+    }
+    
+    if (registro->nomePoPs[0] != DELIMITER && strlen(registro->nomePoPs) > 0) {  // se for diferente de NULL
+        printf("Nome do ponto: %s\n", registro->nomePoPs);    
+    } 
+    
+    if (registro->nomePais[0] != DELIMITER && strlen(registro->nomePais) > 0) { // se for diferente de NULL
+        printf("Pais de localizacao: %s\n", registro->nomePais);
+    }
+    
+    if (registro->siglaPais[0] != GARBAGE && strlen(registro->siglaPais) > 0) { // se for diferente de NULL
+        printf("Sigla do pais: %s\n", registro->siglaPais);
+    }
+    
+    if (registro->idPoPsConectado != -1) { // se for diferente de NULL
+        printf("Identificador do ponto conectado: %d\n", registro->idPoPsConectado);
+    }
+    
+    if (registro->velocidade != -1 && registro->unidadeMedida != '$') {  // se for diferente de NULL
+        printf("Velocidade de transmissao: %d %cbps\n", registro->velocidade, registro->unidadeMedida);
+    }
+    printf("\n");
+}
+
+//mensagem de erro para erro ao tentar abrir um arquivo
+void error_file(){
+    printf("Falha no processamento do arquivo.\n");
+}
+
+//mensagem de erro para erro p/ registro inexistente
+void error_reg(){
+    printf("Registro inexistente.\n\n");
 }
